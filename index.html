@@ -48,9 +48,9 @@
     let browseFile = $('#browseFile');
     let progress = $('.progress');
     let resumable = new Resumable({
-      target: 'http://backend-api.test/api/upload-video',
+      target: 'http://143.244.188.19/api/upload-video',
       fileType: ['mp4', 'avi', 'mov', 'wm'],
-      chunkSize: 10 * 1024 * 1024, // default is 1*1024*1024, this should be less than your maximum limit in php.ini
+      chunkSize: 10 * 1024 * 1024,
       headers: {
         'Accept': 'application/json'
       },
@@ -60,17 +60,17 @@
 
     resumable.assignBrowse(browseFile[0]);
 
-    resumable.on('fileAdded', function (file) { // trigger when file picked
+    resumable.on('fileAdded', function (file) {
       showProgress();
       browseFile.attr('disabled', true)
-      resumable.upload() // to actually start uploading.
+      resumable.upload()
     });
 
-    resumable.on('fileProgress', function (file) { // trigger when file progress update
+    resumable.on('fileProgress', function (file) {
       updateProgress(Math.floor(file.progress() * 100));
     });
 
-    resumable.on('fileSuccess', function (file, response) { // trigger when file upload complete
+    resumable.on('fileSuccess', function (file, response) {
       response = JSON.parse(response)
       progress.css('display', 'none');
       $('#videoPreview').attr('src', response.full_path);
@@ -78,7 +78,7 @@
       browseFile.attr('disabled', false)
     });
 
-    resumable.on('fileError', function (file, response) { // trigger when there is any error
+    resumable.on('fileError', function (file, response) {
       alert('file uploading error.')
     });
   
